@@ -49,5 +49,5 @@ def test_category_property(category1, prod_lst_str):
 
 
 def test_category_add_product(category1, category2, product3, prod_lst_str):
-    category2.add_product = product3
+    category2.add_product(product3)
     assert category2.product_list == prod_lst_str

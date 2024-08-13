@@ -72,10 +72,10 @@ class Category(Info):
             prod_lst_str += '\n'
         return prod_lst_str
 
-    @product_list.setter
+
     def add_product(self, product: Product):
         self.__products.append(product)
-        self.product_count = len(self.__products)
+        self.product_count += 1
 
 
 if __name__ == "__main__":

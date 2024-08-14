@@ -16,6 +16,10 @@ class Product(Info):
         self.__price = price
         self.quantity = quantity
 
+
+    def __str__(self):
+        return f'{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
+
     @property
     def price(self):
         return self.__price
@@ -54,7 +58,7 @@ def merge_product(products: list[Product], product: Product):
 
 
 class Category(Info):
-    __products: list[Product]
+    products: list[Product]
     category_count = 0
     product_count = 0
 
@@ -64,18 +68,20 @@ class Category(Info):
         self.product_count = len(products)
         Category.category_count += 1
 
+    def __str__(self):
+        sum([p.quantity for p in self.__products])
+        return f'Категория {self.name}, количество продуктов: {self.product_count} шт.'
+
     @property
     def product_list(self):
         prod_lst_str = ""
         for product in self.__products:
-            prod_lst_str += f'{product.name}, {product.price} руб. Остаток:{product.quantity} шт.'
-            prod_lst_str += '\n'
+            prod_lst_str += f'{product}\n'
         return prod_lst_str
 
-
     def add_product(self, product: Product):
-        self.__products.append(product)
-        self.product_count += 1
+       self.__products.append(product)
+       self.product_count += 1
 
 
 if __name__ == "__main__":
@@ -99,9 +105,9 @@ if __name__ == "__main__":
     print(apple.name, apple.description, apple.price, apple.quantity)
 
     print(category1.product_list)
-    # category1.add_product = apple
-    # print('\n')
-    # print(category1.product_list)
+    category1.add_product(apple)
+    print('\n')
+    print(category1.product_list)
     # merge_product(p, apple1)
     # apple1.price = 33
     # print(apple1.__dict__)

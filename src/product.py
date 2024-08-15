@@ -16,7 +16,6 @@ class Product(Info):
         self.__price = price
         self.quantity = quantity
 
-
     def __str__(self):
         return f'{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
 
@@ -80,8 +79,8 @@ class Category(Info):
         return prod_lst_str
 
     def add_product(self, product: Product):
-       self.__products.append(product)
-       self.product_count += 1
+        self.__products.append(product)
+        Category.product_count += 1
 
 
 if __name__ == "__main__":

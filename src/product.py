@@ -64,7 +64,7 @@ class Category(Info):
     def __init__(self, name, description, products=None):
         Info.__init__(self, name, description)
         self.__products = products if products else []
-        self.product_count = len(products)
+        Category.product_count = len(products)
         Category.category_count += 1
 
     def __str__(self):

@@ -57,14 +57,13 @@ def merge_product(products: list[Product], product: Product):
 
 
 class Category(Info):
-    products: list[Product]
     category_count = 0
     product_count = 0
 
     def __init__(self, name, description, products=None):
         Info.__init__(self, name, description)
         self.__products = products if products else []
-        Category.product_count = len(products)
+        Category.product_count += len(products)
         Category.category_count += 1
 
     def __str__(self):
@@ -79,6 +78,7 @@ class Category(Info):
         return prod_lst_str
 
     def add_product(self, product: Product):
+
         self.__products.append(product)
         Category.product_count += 1
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     apple = Product("Яблоко", "Голден", 59.99, 50)
     apple_dict = {'name': "Яблоко", 'description': "Голден", 'price': 50.99, 'quantity': 100}
     apple1 = Product.new_product(apple_dict)
-    print(Product.new_product(apple_dict).name)
+    # print(Product.new_product(apple_dict).name)
 
     product1 = Product(
         "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
@@ -101,13 +101,22 @@ if __name__ == "__main__":
         [product1, product2, product3],
     )
     p = [product1, product2, product3, apple]
-    print(apple.name, apple.description, apple.price, apple.quantity)
+    # print(apple.name, apple.description, apple.price, apple.quantity)
 
     print(category1.product_list)
+    print(category1.product_count)
     category1.add_product(apple)
     print('\n')
     print(category1.product_list)
-    # merge_product(p, apple1)
+    print(category1.product_count)
+    category2 = Category(
+        "Смартфоны",
+        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
+        [product1, product2])
+
+    print(f"c2_product_count {category2.product_count}")
+    print(f"c1_product_count {category1.product_count}")
+    # # merge_product(p, apple1)
     # apple1.price = 33
     # print(apple1.__dict__)
     # print(p[3].__dict__)

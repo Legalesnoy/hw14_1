@@ -1,4 +1,5 @@
-from src.product import Product, merge_product, Category
+from src.product import Product, merge_product, Category, ProductIterator
+import pytest
 
 
 def test_info_init(info1):
@@ -51,3 +52,28 @@ def test_category_property(category1, prod_lst_str):
 def test_category_add_product(category1, category2, product3, prod_lst_str):
     category2.add_product(product3)
     assert category2.product_list == prod_lst_str
+
+
+def test_info_str(info1):
+    assert str(info1) == 'Яблоко'
+
+
+def test_product_str(product3):
+    assert str(product3) == 'Xiaomi Redmi Note 11, 31000.0 руб. Остаток: 14 шт.'
+
+
+def test_product_add(product3, product1):
+    assert product3 + product1 == 1_334_000.0
+
+
+def test_category_str(category1):
+    assert str(category1) == 'Категория Телевизоры, количество продуктов: 27 шт.'
+
+
+def test_product_iterator(product_iterator, product1, product2, product3):
+    iter(product_iterator)
+    assert product_iterator.index == 0
+    assert next(product_iterator) == str(product1)
+    assert next(product_iterator) == str(product2)
+    assert next(product_iterator) == str(product3)
+

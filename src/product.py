@@ -104,7 +104,7 @@ class ProductIterator:
         return self
 
     def __next__(self):
-        prod_list = self.category.product_list.split('\n')
+        prod_list = self.category.products.split('\n')
         if self.index < len(prod_list):
             prod = prod_list[self.index]
             self.index += 1

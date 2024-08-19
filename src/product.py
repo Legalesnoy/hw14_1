@@ -135,7 +135,7 @@ if __name__ == "__main__":
     p = [product1, product2, product3, apple]
     # print(apple.name, apple.description, apple.price, apple.quantity)
     #
-    print(category1.product_list)
+    print(category1.products)
     print(category1)
 
     # category1.add_product(apple)

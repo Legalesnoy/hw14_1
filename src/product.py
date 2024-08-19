@@ -80,7 +80,7 @@ class Category(Info):
         return f'Категория {self.name}, количество продуктов: {sum_prod} шт.'
 
     @property
-    def product_list(self):
+    def products(self):
         prod_lst_str = ""
         for prod in self.__products:
             prod_lst_str += f'{str(prod)}\n'

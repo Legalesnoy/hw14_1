@@ -1,14 +1,5 @@
-class Info:
-    """ базовый класс для определения имени и описания категории или товара"""
-    name: str
-    description: str
 
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
-
-    def __str__(self):
-        return self.name
+from src.info import Info
 
 
 class Product(Info):
@@ -25,7 +16,9 @@ class Product(Info):
         return f'{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
 
     def __add__(self, other):
-        """полная стоимость всех товаров на складе"""
+        """полная стоимость двух товаров на складе"""
+        if not isinstance(other, type(self)):
+            raise TypeError
         return self.quantity * self.__price + other.quantity * other.__price
 
     @property
@@ -54,66 +47,21 @@ class Product(Info):
         quantity = product.get('quantity', 0)
         return cls(name, description, price, quantity)
 
+    @staticmethod
+    def merge_product(products: list, product_):
+        """ функция для корректного добавления продукта в продуктовый лист"""
+        for el in products:
+            if el.name == product_.name:
+                el.quantity += product_.quantity
+                el.price = max(el.price, product_.price)
+                break
+        products.append(product_)
+        return products
 
-def merge_product(products: list[Product], product: Product):
-    for el in products:
-        if el.name == product.name:
-            el.quantity += product.quantity
-            el.price = max(el.price, product.price)
-            break
-    products.append(product)
-    return products
-
-
-class Category(Info):
-    category_count = 0
-    product_count = 0
-
-    def __init__(self, name, description, products=None):
-        Info.__init__(self, name, description)
-        self.__products = products if products else []
-        Category.product_count += len(products)
-        Category.category_count += 1
-
-    def __str__(self):
-        sum_prod = sum([p.quantity for p in self.__products])
-        return f'Категория {self.name}, количество продуктов: {sum_prod} шт.'
-
-    @property
-    def products(self):
-        prod_lst_str = ""
-        for prod in self.__products:
-            prod_lst_str += f'{str(prod)}\n'
-        return prod_lst_str
-
-    def add_product(self, product: Product):
-
-        self.__products.append(product)
-        Category.product_count += 1
-
-
-class ProductIterator:
-    """ класс для перебора продуктов в категории """
-    index = 0
-    def __init__(self, user_category):
-        self.category = user_category
-
-
-    def __iter__(self):
-        self.index = 0
-        return self
-
-    def __next__(self):
-        prod_list = self.category.products.split('\n')
-        if self.index < len(prod_list):
-            prod = prod_list[self.index]
-            self.index += 1
-            return prod
-        else:
-            # self.index = 0
-            raise StopIteration
 
 if __name__ == "__main__":
+    from src.category import Category, ProductIterator
+
     apple = Product("Яблоко", "Голден", 59.99, 50)
     print(apple)
     apple_dict = {'name': "Яблоко", 'description': "Голден", 'price': 50.99, 'quantity': 100}
@@ -138,9 +86,9 @@ if __name__ == "__main__":
     print(category1.products)
     print(category1)
 
-    # category1.add_product(apple)
+    category1.add_product(apple)
     # print('\n')
-    # print(category1.product_list)
+    # print(category1.products)
     # print(category1.product_count)
     category2 = Category(
         "Смартфоны",

@@ -18,12 +18,11 @@ class Order(BaseProduct):
         else:
             comment = ""
         return (f"Куплен товар '{self.name}', за {self.price} руб.,"
-                f"количество купленного товара {self.product.quantity} шт.{comment}"
+                f"количество купленного товара {self.quantity} шт.{comment}"
                 )
 
     @classmethod
     def new_product(cls, product: Product):
-        cls.product = product
         return cls(product)
 
 

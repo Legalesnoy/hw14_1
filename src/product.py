@@ -1,16 +1,18 @@
-
+from src.base_product import BaseProduct
 from src.info import Info
+from src.print_mixin import PrintMixin
 
 
-class Product(Info):
+class Product(BaseProduct, PrintMixin):
     """товары"""
     __price: float = 0
     quantity: int = 0
 
     def __init__(self, name, description, price, quantity):
-        Info.__init__(self, name, description)
         self.__price = price
         self.quantity = quantity
+        super().__init__(name, description)
+
 
     def __str__(self):
         return f'{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
@@ -63,6 +65,7 @@ if __name__ == "__main__":
     from src.category import Category, ProductIterator
 
     apple = Product("Яблоко", "Голден", 59.99, 50)
+
     print(apple)
     apple_dict = {'name': "Яблоко", 'description': "Голден", 'price': 50.99, 'quantity': 100}
     apple1 = Product.new_product(apple_dict)

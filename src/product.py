@@ -3,7 +3,7 @@ from src.info import Info
 from src.print_mixin import PrintMixin
 
 
-class Product(BaseProduct, PrintMixin):
+class Product(Info, PrintMixin):
     """товары"""
     __price: float = 0
     quantity: int = 0

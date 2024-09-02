@@ -4,7 +4,7 @@ from src.product import Product
 from src.exception import ZeroQuantityProduct
 
 
-class Category(BaseProduct):
+class Category(Info):
     """класс для описания категории продукта"""
     category_count = 0
     product_count = 0

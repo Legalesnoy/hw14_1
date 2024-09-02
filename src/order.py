@@ -1,8 +1,9 @@
 from src.base_product import BaseProduct
+from src.info import Info
 from src.product import Product
 
 
-class Order(BaseProduct):
+class Order(Info):
     """Класс «Заказ» содержит какой товар был куплен,
        В заказе может быть указан только один товар. """
 

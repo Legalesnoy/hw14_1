@@ -1,5 +1,7 @@
+from src.base_product import BaseProduct
 from src.info import Info
 from src.product import Product
+from src.exception import ZeroQuantityProduct
 
 
 class Category(Info):
@@ -8,7 +10,7 @@ class Category(Info):
     product_count = 0
 
     def __init__(self, name, description, products=None):
-        Info.__init__(self, name, description)
+        super().__init__(name, description)
         self.__products = products if products else []
         Category.product_count += len(products)
         Category.category_count += 1
@@ -26,10 +28,31 @@ class Category(Info):
 
     def add_product(self, product: Product):
         if isinstance(product, Product):
-            self.__products.append(product)
-            Category.product_count += 1
+
+            try:
+                if product.quantity == 0:
+                    raise ZeroQuantityProduct("Добавлять товар с нулевым количеством недопустимо")
+            except ZeroQuantityProduct as e:
+                print(str(e))
+            else:
+                self.__products.append(product)
+                Category.product_count += 1
+                print('Товар добавлен успешно')
+            finally:
+                print('Обработка добавления товара завершена')
         else:
             raise TypeError
+
+    def new_product(self, product: Product):
+        self.add_product(product)
+
+    def average_cost(self):
+        """метод, который подсчитывает средний ценник всех товаров."""
+        try:
+            return sum([p.quantity for p in self.__products]) / len(self.__products)
+        except ZeroDivisionError:
+            return 0
+
 
 
 class ProductIterator:
@@ -52,3 +75,33 @@ class ProductIterator:
         else:
             # self.index = 0
             raise StopIteration
+
+
+if __name__ == '__main__':
+    product1 = Product("Samsung Galaxy S23 Ultra",
+                       "256GB, Серый цвет, 200MP камера",
+                       180000.0,
+                       5
+                       )
+    product2 = Product("Iphone 15",
+                       "512GB, Gray space",
+                       210000.0,
+                       8)
+
+    product3 = Product("Xiaomi Redmi Note 11",
+                       "1024GB, Синий",
+                       31000.0,
+                       14)
+
+    category1 = Category("Смартфоны",
+                    "xxxx",
+                    [product1, product2, product3])
+    print(category1.average_cost())
+
+    category2 = Category("xxxx",
+                         "xxxx",
+                         [])
+    print(category2.average_cost())
+    apple = Product("Яблоко", "Голден", 59.99, 50)
+    apple.quantity = 0
+    category2.add_product(apple)

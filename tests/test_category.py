@@ -1,5 +1,7 @@
 import pytest
 
+from src.product import Product
+
 
 def test_category_init(category1):
     assert category1.name == "Телевизоры"
@@ -24,3 +26,21 @@ def test_category_add_product_error(category1):
 
 def test_category_str(category1):
     assert str(category1) == 'Категория Телевизоры, количество продуктов: 27 шт.'
+
+
+def test_average_cost(category1, category_without_prod_lst):
+    assert category1.average_cost() == 9
+    assert category_without_prod_lst.average_cost() == 0
+
+
+def test_custom_exception(capsys, category1):
+    apple = Product("Яблоко", "Голден", 59.99, 50)
+    category1.add_product(apple)
+    message = capsys.readouterr()
+    assert message.out.strip().split('\n')[-2] == 'Товар добавлен успешно'
+
+    apple.quantity = 0
+    category1.add_product(apple)
+    message = capsys.readouterr()
+    assert message.out.strip().split('\n')[-2] == 'Добавлять товар с нулевым количеством недопустимо'
+    assert message.out.strip().split('\n')[-1] == 'Обработка добавления товара завершена'

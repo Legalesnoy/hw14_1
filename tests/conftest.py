@@ -91,3 +91,10 @@ def prod_lst_str():
 @pytest.fixture
 def product_iterator(category1):
     return ProductIterator(category1)
+
+@pytest.fixture
+def category_without_prod_lst():
+    return Category("XXX",
+                    "XXX",
+                    []
+                    )
